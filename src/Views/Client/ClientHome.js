@@ -1,6 +1,6 @@
 import React from "react"
 import {useParams} from "react-router-dom"
-const ClientInfoPage = () => {
+const ClientHome = () => {
  const {userId}=useParams() 
 
  return(
@@ -8,4 +8,4 @@ const ClientInfoPage = () => {
  )
 }
 
-export default ClientInfoPage
+export default ClientHome

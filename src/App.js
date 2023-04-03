@@ -1,64 +1,36 @@
 //cmd rapide : rfce
 import React, {useEffect, useState} from 'react'
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
-import Client from './Views/Client/ClientInfoPage'
-import Home from './Views/Client/Home'
+import ClientHome from './Views/Client/ClientHome'
+import AdminHome from './Views/Admin/AdminHome'
+import Home from './Views/Home'
+import Product from './Views/Product'
+import Cart from './Views/Client/Cart'
 import ErrorPage from './Views/Error'
 import { useDispatch, useSelector } from 'react-redux'
-import userAPI from './api/userAPI'
-import { authActions } from './redux/authReducer'
+import { verifyToken } from './redux/authReducer'
 
 const App = () =>{
-  /*test */
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  console.log("là bas",isLoggedIn)
+  const isAdmin = useSelector(state => state.auth.isAdmin)
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    try{
-     const auth=JSON.parse(localStorage.getItem("auth"))
-     if(!auth){
-      console.log("log out")
-      dispatch(authActions.logout())
-     }
-     //console.log(auth.token)
-     userAPI.check({
-      headers:{"x-access-token":auth.token}
-     }).then((resp) => {
-       if (resp.data.auth){
-        console.log("login succes")
-        dispatch(authActions.loginSuccess())
-      }else{
-        console.log("login time out")
-        dispatch(authActions.loginTimeOut())
-      }
-     }).catch(error => {
-      console.log(error)
-     })
-    } catch{
-  
-    }
-   })
-
+  useEffect(()=>{ 
+    dispatch(verifyToken())
+  })
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path={'/'} element={<Home/>} />
-      {/*
-        <Route path={'/login'} element={<Login mode="login"/>} />
-        <Route path={'/new-compte'} element={<Login mode="new-compte" />} />
-        <Route path={'/password-reset'} element={<Login mode="password-reset" />} />
-        <Route path={'/password-reset/:resetToken'} element={<Login mode="password_reset" />} 
-      />*/}
-        <Route path={'/home/profil/:userId'} element={isLoggedIn ? <Client /> : <Navigate to={'/login'} />} />
+        <Route path={'/products'} element={<Product/>} />
+        <Route path={'/home/:idUser'} element={isLoggedIn ? <ClientHome /> : <Navigate to={'/'} />} />
+        <Route path={'/panier/:idUser'} element={isLoggedIn ? <Cart /> : <Navigate to={'/'} />} />
+        <Route path={'/admin'} element={isAdmin ? <AdminHome/> : <Navigate to={'/'} />} />
         <Route path={"*"} element={<ErrorPage/>} />
       </Routes>
-    
     </BrowserRouter>
   )
 }
   
-
-//export default App
 export default App

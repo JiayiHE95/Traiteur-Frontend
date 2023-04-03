@@ -1,5 +1,9 @@
 import axiosInstance from './axiosInstance'
 const userAPI={
+
+ getUserByMail(mail){
+  return axiosInstance.get(`user/get-user-by-mail/${mail}`)
+ },
  
  connexion(data){
   return axiosInstance.post(`user/connexion`,data)

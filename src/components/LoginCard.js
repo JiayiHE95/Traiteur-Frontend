@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import store from '../redux/store'
 import { authActions } from '../redux/authReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import userAPI from '../api/userAPI'
 const LoginCard=({isOpen, reset})=>{
   const dispatch = useDispatch();
-  const [isLogged, setIsLogged]=useState(false)
+  const [mail,setMail]=useState()
+  const [mdp,setMdp]=useState()
   const [isOpenedPasswordReset, setIsOpenedPasswordReset] = useState(false)
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  console.log("ici",isLoggedIn)
+  
   const check=()=>{ 
     console.log(JSON.parse(localStorage.getItem("auth")).token)
     userAPI.check({
@@ -29,24 +28,20 @@ const LoginCard=({isOpen, reset})=>{
     userAPI.connexion(data).then((resp) => {
       console.log(resp.data)
       if(resp.data.auth){
-        setIsLogged(true)
         localStorage.setItem("auth",JSON.stringify({
          token: resp.data.token,
          mail:mail,
-         user:resp.data.result[0]
+         user:resp.data.user
         }))
-        store.dispatch(authActions.loginSuccess())
+        dispatch(authActions.loginSuccess())
+        isOpen(false)
       } else{
-        store.dispatch(authActions.logout)
-        setIsLogged(false)
+        dispatch(authActions.logout)
       }
     }).catch(error => {
       console.log(error)
-      setIsLogged(false)
     })
-  }
-  const [mail,setMail]=useState()
-  const [mdp,setMdp]=useState()
+  }  
 
  return(
   <div className='form'>
