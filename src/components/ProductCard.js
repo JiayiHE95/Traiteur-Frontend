@@ -1,7 +1,10 @@
 import React, { useState,useEffect } from 'react'
-import pictureAPI from '../api/pictureAPI';
+import { useDispatch, useSelector } from 'react-redux'
+import cartAPI from '../api/cartAPI';
 import productAPI from '../api/productAPI';
+
 const ProductCard=({product})=>{
+ const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
  let imagePath = window.location.origin+"/product_picture/";
  const [pictures, setPictures] = useState()
  const [path,setPath]=useState()
@@ -16,20 +19,48 @@ const ProductCard=({product})=>{
  },[])
 
  useEffect(()=>{ 
-  if (pictures!=undefined){
-   console.log(pictures)
-   console.log(pictures[0].namePicture)
+  if (pictures!==undefined){
    imagePath+=pictures[0].namePicture
    setPath(imagePath)
-   console.log(path)
   }
  },[pictures])
 
+ const handleChangeQuantity=(q)=>{
+  const id=product.idProduct
+  let cartName
+  isLoggedIn? cartName='cart': cartName='visitorCart'
+  let cart =JSON.parse(localStorage.getItem(cartName))
+
+  if (!cart) {
+    cart = [{idProduct:id, quantity:q, path:imagePath, product:product }]
+  } else {
+    let exist=false
+    cart=cart.cart
+    cart.length!==0 && cart.forEach(element => {
+      if (element.idProduct===id){
+        element.quantity=q
+        exist=true
+      }
+    })
+    if(!exist){
+      cart=[...cart,{idProduct:id, quantity:q, path:imagePath, product:product }]
+    }
+  }   
+  cart = cart.filter(item => item.quantity > 0)
+  cart.length===0 ? localStorage.removeItem(cartName):   
+  localStorage.setItem(cartName,JSON.stringify({cart}))
+  }
+ 
+
  return(
-  path!=undefined&&
+  path!==undefined&&
   <div>
    <img src={path} style={{width: "200px", height: "200px"}}/>
    <div>{product.nameProduct}</div>
+   <div>{product.categorie}</div>
+   <div>{product.price}</div>
+   <input type='number' min="0" max="100" onChange={(e)=>handleChangeQuantity(e.target.value)}/>
+
 
    
   </div>

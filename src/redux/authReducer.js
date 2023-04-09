@@ -1,23 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit'
 import userAPI from '../api/userAPI'
+import cartAPI from '../api/cartAPI'
 
 const authReducerInit = () => {
  try {
-   const stored = JSON.parse(localStorage.getItem('auth'))
+   const auth = JSON.parse(localStorage.getItem('auth'))
    return {
      isLoggedIn: true,
-     mail: stored.mail,
-     token: stored.token,
-     user: stored.user,
+     token: auth.token,
+     user: auth.user,
+     isAdmin:auth.user.isAdmin,
+     cart:auth.cart
    }
  } catch {
    return {
      isLoggedIn: false,
-     mail: null,
      token: null,
      user: null,
+     isAdmin:false,
+     cart:null
    }
  }
+}
+
+const updateCart =()=>{
+  let cart= JSON.parse(localStorage.getItem("cart"))
+  const data={
+    cart:cart.cart,
+    idUser:JSON.parse(localStorage.getItem("auth")).user.idUser
+  }
+  cartAPI.updateCart(data).then((resp) => {
+    if (resp.data){
+      console.log(resp.data)
+    }
+  }).catch(error => {
+  console.log(error)
+  })
+  cart && localStorage.setItem("visitorCart",JSON.stringify({cart:cart.cart}))
 }
 
 const initialState = authReducerInit();
@@ -27,29 +46,34 @@ const authSlice = createSlice({
  initialState,
  reducers: {
      loginSuccess(state) {
-         const stored = JSON.parse(localStorage.getItem("auth"));
+         const auth = JSON.parse(localStorage.getItem("auth"));
          state.isLoggedIn = true
-         state.mail = stored.mail
-         state.token = stored.token
-         state.user = stored.user
-         state.isAdmin = stored.user.isAdmin
+         state.token = auth.token
+         state.user = auth.user
+         state.isAdmin = auth.user.isAdmin
+         state.cart=auth.cart
      },
 
-     loginTimeOut(state) {
-         state.isLoggedIn = false
-         state.mail = null
-         state.token = null
-         state.user = null
-         state.isAdmin = false
+     loginTimeOut(state) {  
+      updateCart()
+      localStorage.removeItem('auth')
+      localStorage.removeItem('cart')
+      state.isLoggedIn = false
+      state.token = null
+      state.user = null
+      state.isAdmin = false
+      state.cart=null
      },
 
      logout(state) {
-         localStorage.removeItem('auth')
-         state.isLoggedIn = false
-         state.mail = null
-         state.token = null
-         state.user = null
-         state.isAdmin = false
+      updateCart()
+      localStorage.removeItem('auth')
+      localStorage.removeItem('cart')
+      state.isLoggedIn = false
+      state.token = null
+      state.user = null
+      state.isAdmin = false
+      state.cart=null
      }
  }
 })
@@ -60,7 +84,7 @@ export const verifyToken=()=>{
       const auth=JSON.parse(localStorage.getItem("auth"))
       if(!auth){
        console.log("log out")
-       dispatch(authSlice.actions.logout())
+       //dispatch(authSlice.actions.logout())
       }else{
         userAPI.check({
           headers:{"x-access-token":auth.token}
@@ -79,9 +103,7 @@ export const verifyToken=()=>{
      } catch{ 
    //TODO
      }
-
   }
-
 }
 
 export const authActions = authSlice.actions

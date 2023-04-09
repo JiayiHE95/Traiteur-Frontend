@@ -34,6 +34,14 @@ useEffect(()=>{
 }
 ,[resetPassword])
 
+const mergeCart=()=>{
+  const visitorCart = JSON.parse(localStorage.getItem('visitorCart'))
+  if (visitorCart){
+    localStorage.setItem("cart",JSON.stringify({cart:visitorCart.cart}))
+    localStorage.removeItem('visitorCart')
+  }
+}
+
 
 const addUser=()=>{
   if (resetPassword!==mdp) {
@@ -57,26 +65,26 @@ const addUser=()=>{
   }
   setNotif(false)
   userAPI.createUser(data).then((resp) => {
-    console.log(resp.data)
-    console.log("succes")
     const data={
       mail:mail,
       mdp:mdp
     }
     userAPI.connexion(data).then((resp) => {
       if(resp.data.auth){
+        mergeCart()
         localStorage.setItem("auth",JSON.stringify({
          token: resp.data.token,
-         mail:mail,
          user:resp.data.user
         }))
       }
       dispatch(authActions.loginSuccess())
       isOpen(false)
     }).catch(error => {
+      setconnexionNotif(true)
       console.log(error)
     })
   }).catch(error => {
+    setcreateUserNotif(true)
     console.log(error)
   })
 }

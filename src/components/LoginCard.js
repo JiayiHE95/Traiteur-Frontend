@@ -2,22 +2,40 @@ import React, { useState } from 'react'
 import { authActions } from '../redux/authReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import userAPI from '../api/userAPI'
+import cartAPI from '../api/cartAPI'
+import productAPI from '../api/productAPI'
+
 const LoginCard=({isOpen, reset})=>{
   const dispatch = useDispatch();
   const [mail,setMail]=useState()
   const [mdp,setMdp]=useState()
-  const [isOpenedPasswordReset, setIsOpenedPasswordReset] = useState(false)
   
-  const check=()=>{ 
-    console.log(JSON.parse(localStorage.getItem("auth")).token)
-    userAPI.check({
-      headers:{
-        "x-access-token":JSON.parse(localStorage.getItem("auth")).token
+  const mergeCart=(idUser)=>{
+    let visitorCart = JSON.parse(localStorage.getItem('visitorCart'))
+    if (visitorCart) {
+      localStorage.setItem("cart",JSON.stringify({cart:visitorCart.cart}))
+      localStorage.removeItem('visitorCart')
+    }else{
+      cartAPI.getCart(idUser).then((resp) => {
+        if (resp.data.length !==0 ){
+          const promises = resp.data.map((product) => {
+            return productAPI.getProductById(product.idProduct).then((resp) => {
+              let imagePath = window.location.origin+"/product_picture/";
+              const newCartLine={
+                idProduct:product.idProduct, 
+                quantity:product.quantity, 
+                path:imagePath+=resp.data.pictures[0].namePicture, 
+                product:resp.data }
+                return newCartLine
+              })
+            })
+          Promise.all(promises).then((newCartLine)=>{
+            newCartLine?.length !==0 && localStorage.setItem("cart",JSON.stringify({cart:newCartLine}))
+          }
+          )
         }
-    }).then((resp) => {
-      console.log(resp.data)
-    }).catch(error => {
-    })
+      })
+    }
   }
 
   const connexion=()=>{
@@ -28,20 +46,21 @@ const LoginCard=({isOpen, reset})=>{
     userAPI.connexion(data).then((resp) => {
       console.log(resp.data)
       if(resp.data.auth){
+        mergeCart(resp.data.user.idUser)
         localStorage.setItem("auth",JSON.stringify({
          token: resp.data.token,
-         mail:mail,
          user:resp.data.user
         }))
         dispatch(authActions.loginSuccess())
         isOpen(false)
       } else{
-        dispatch(authActions.logout)
+        dispatch(authActions.logout())
       }
+      window.location.reload()
     }).catch(error => {
       console.log(error)
     })
-  }  
+  } 
 
  return(
   <div className='form'>
@@ -57,8 +76,6 @@ const LoginCard=({isOpen, reset})=>{
    </div>
    <div onClick={()=>{reset(true) ;isOpen(false)}}>Mot de pass oublié</div>
    <div onClick={()=>connexion()}>valide</div>
-
-   <div onClick={()=>check()}>Check is logged</div>
   </div>
  )
 

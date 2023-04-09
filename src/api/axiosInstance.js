@@ -5,7 +5,6 @@ const axiosInstance = axios.create({
   //baseURL : `${process.env.REACT_API_URL}`
 })
 
-
 axiosInstance.interceptors.request.use(config => {
   //const state = store.getState()
   try {
@@ -18,7 +17,5 @@ axiosInstance.interceptors.request.use(config => {
   }
   return config
 })
-
-
 
 export default axiosInstance
