@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import {MdOutlineCancel} from 'react-icons/md'
-import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 
 const CartLine = ({product,cart,setCart}) => { 
  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+
  const handleChangeQuantity=(id,q)=>{
   let cartName
   isLoggedIn? cartName='cart': cartName='visitorCart'
@@ -18,21 +18,18 @@ const CartLine = ({product,cart,setCart}) => {
   }
  
   return(
-   product !== undefined && 
+   product !== undefined &&
    <div>
        <div><img src={product.path} style={{width: "200px", height: "200px"}}/></div>
        <div>
         <div>{product.product.nameProduct}</div>
-        <div>{product.product.price*product.quantity} euros </div>
+        <div>{product.price*product.quantity} euros </div>
         <div>Quantité : </div>
         <input type='number' min="0" max="100" value={product.quantity} onChange={(e)=>handleChangeQuantity(product.idProduct,e.target.value)}/>
         <MdOutlineCancel onClick={()=>handleChangeQuantity(product.idProduct,0)}/>
        </div>
    </div>
   )
-
-
-
 
 }
 export default CartLine

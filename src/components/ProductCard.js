@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import cartAPI from '../api/cartAPI';
 import productAPI from '../api/productAPI';
 
 const ProductCard=({product})=>{
@@ -60,9 +59,6 @@ const ProductCard=({product})=>{
    <div>{product.categorie}</div>
    <div>{product.price}</div>
    <input type='number' min="0" max="100" onChange={(e)=>handleChangeQuantity(e.target.value)}/>
-
-
-   
   </div>
  ) 
 

@@ -18,7 +18,6 @@ const NavBar =({show=true})=>{
  
  useEffect(()=>{ 
   dispatch(verifyToken())
-  //TODO enlève[] pour verification tt le temps
  },[])
 
  useEffect(()=>{ 
@@ -55,7 +54,5 @@ const NavBar =({show=true})=>{
    {isOpenedPasswordReset&&<PasswordResetCard isOpen={setIsOpenedPasswordReset}/>}
    </div>
    )
-
-
 }
 export default NavBar

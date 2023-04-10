@@ -42,7 +42,6 @@ const mergeCart=()=>{
   }
 }
 
-
 const addUser=()=>{
   if (resetPassword!==mdp) {
     return
@@ -58,7 +57,7 @@ const addUser=()=>{
     mdp:mdp
   }
   for (const key in data) {
-    if(data[key]===undefined){
+    if(data[key]===undefined||data[key]===""){
       setNotif(true)
       return
     }

@@ -9,6 +9,7 @@ const LoginCard=({isOpen, reset})=>{
   const dispatch = useDispatch();
   const [mail,setMail]=useState()
   const [mdp,setMdp]=useState()
+  const [notif,setNotif]=useState()
   
   const mergeCart=(idUser)=>{
     let visitorCart = JSON.parse(localStorage.getItem('visitorCart'))
@@ -53,10 +54,11 @@ const LoginCard=({isOpen, reset})=>{
         }))
         dispatch(authActions.loginSuccess())
         isOpen(false)
+        window.location.reload()
       } else{
-        dispatch(authActions.logout())
+        //dispatch(authActions.logout())
+        setNotif(resp.data.message)
       }
-      window.location.reload()
     }).catch(error => {
       console.log(error)
     })
@@ -67,15 +69,16 @@ const LoginCard=({isOpen, reset})=>{
     <div>Connectez à votre compte</div>
     <div onClick={()=>{isOpen(false)}}>fermer</div>
     <div className='form-input'>
-    <label>Mail</label>
-    <input type='email' required="required" onChange={(e)=>{setMail(e.target.value)}}></input>
-   </div>
-   <div className='form-input'>
-    <label>Mot de pass</label>
-    <input type='password' required="required" onChange={(e)=>{setMdp(e.target.value)}}></input>
-   </div>
-   <div onClick={()=>{reset(true) ;isOpen(false)}}>Mot de pass oublié</div>
-   <div onClick={()=>connexion()}>valide</div>
+      <label>Mail</label>
+      <input type='email' required="required" onChange={(e)=>{setMail(e.target.value)}}></input>
+    </div>
+    <div className='form-input'>
+      <label>Mot de pass</label>
+      <input type='password' required="required" onChange={(e)=>{setMdp(e.target.value)}}></input>
+    </div>
+    <div onClick={()=>{reset(true) ;isOpen(false)}}>Mot de pass oublié</div>
+    {notif && <div>{notif}</div>}
+    <div onClick={()=>connexion()}>valide</div>
   </div>
  )
 

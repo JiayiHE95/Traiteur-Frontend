@@ -10,7 +10,6 @@ const authReducerInit = () => {
      token: auth.token,
      user: auth.user,
      isAdmin:auth.user.isAdmin,
-     cart:auth.cart
    }
  } catch {
    return {
@@ -18,7 +17,6 @@ const authReducerInit = () => {
      token: null,
      user: null,
      isAdmin:false,
-     cart:null
    }
  }
 }
@@ -30,9 +28,6 @@ const updateCart =()=>{
     idUser:JSON.parse(localStorage.getItem("auth")).user.idUser
   }
   cartAPI.updateCart(data).then((resp) => {
-    if (resp.data){
-      console.log(resp.data)
-    }
   }).catch(error => {
   console.log(error)
   })
@@ -51,7 +46,6 @@ const authSlice = createSlice({
          state.token = auth.token
          state.user = auth.user
          state.isAdmin = auth.user.isAdmin
-         state.cart=auth.cart
      },
 
      loginTimeOut(state) {  
@@ -62,7 +56,6 @@ const authSlice = createSlice({
       state.token = null
       state.user = null
       state.isAdmin = false
-      state.cart=null
      },
 
      logout(state) {
@@ -73,7 +66,6 @@ const authSlice = createSlice({
       state.token = null
       state.user = null
       state.isAdmin = false
-      state.cart=null
      }
  }
 })
@@ -84,9 +76,8 @@ export const verifyToken=()=>{
       const auth=JSON.parse(localStorage.getItem("auth"))
       if(!auth){
        console.log("log out")
-       //dispatch(authSlice.actions.logout())
       }else{
-        userAPI.check({
+        userAPI.checkLoggedIn({
           headers:{"x-access-token":auth.token}
         }).then((resp) => {
           if (resp.data.auth){
@@ -101,7 +92,7 @@ export const verifyToken=()=>{
         })
       }
      } catch{ 
-   //TODO
+      console.log("une erreur est survenu lors de la vérification du token")
      }
   }
 }
