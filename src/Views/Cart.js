@@ -7,7 +7,7 @@ import CartLine from "../components/CartLine";
 import promoAPI from "../api/promoAPI";
 import {MdOutlineCancel} from 'react-icons/md'
 import productAPI from "../api/productAPI";
-import { checkoutActions } from "../redux/checkoutReducer";
+import {TbAlertCircle} from 'react-icons/tb'
 
 const Cart = () => { 
  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -19,26 +19,30 @@ const Cart = () => {
  const [beforePromoPrice, setBeforePromoPrice] = useState(0)
  const [afterPromoPrice, setAfterPromoPrice] = useState(0)
  const navigate=useNavigate()
- const dispatch = useDispatch();
  
  useEffect(()=>{ 
   let cartName
   isLoggedIn? cartName='cart': cartName='visitorCart'
   let cart =JSON.parse(localStorage.getItem(cartName))
-  if (cart.cart) {
-  setCart(cart.cart)
-  cart.cart.forEach(product=>{
-    productAPI.getProductById(product.idProduct).then((resp) => {
-      product.price=resp.data.price
+  if (cart?.cart) {
+    cart.cart.forEach(product=>{
+      productAPI.getProductById(product.idProduct).then((resp) => {
+        product.price=resp.data.price
+      })
     })
-  })
+    setCart(cart.cart)
   }
  },[isLoggedIn])
 
  useEffect(()=>{
   let beforePromoPrice=0
   cart && cart.forEach(product=>{
-    beforePromoPrice+=product.price*product.quantity
+    const price = parseFloat(product.price)
+    if (!isNaN(price)) {
+      beforePromoPrice += price * product.quantity
+    }else{
+      beforePromoPrice += product.product.price * product.quantity
+    }
   })
   setBeforePromoPrice(beforePromoPrice)
  }
@@ -68,56 +72,50 @@ const Cart = () => {
  }
 
  const checkout =()=>{
-    dispatch(checkoutActions.addCart({
-      beforePromoPrice:beforePromoPrice,
-      codePromo:promo,
-      discount:discount,
-      afterPromoPrice:afterPromoPrice,
-      cart:cart,
-    }))
-    navigate('/checkout')
+  localStorage.setItem("codePromo",JSON.stringify({codePromo:promo}))
+  navigate('/checkout')
  }
 
  return(
-<div>
-  <NavBar show={false}/>
-  <div onClick={() => navigate("/products")}>Retour</div>
-  {cart=== undefined ? 
-    <div>votre panier est vide</div>
-    :
-    <div>
-     {cart.map((product) => (
-      <div key={product.idProduct}>
-        <CartLine
-        product={product}
-        setCart={setCart}
-        cart={cart}/>
-      </div>
-     ))}
-     <div>
-
-      {isLoggedIn ?
-      (beforePromoPrice === 0 ? <div>Votre Panier est vide</div>
-      :<div>
-        <div>Résumé de la commande</div>
-        {beforePromoPrice &&<div>Prix total :  {beforePromoPrice} euros</div>}
-        {afterPromoPrice!==0 && discount!==0 && <div>Réduction : {discount} euros</div>}
-        {discount!==0 && afterPromoPrice!==0 && <div>Prix après réduction : {afterPromoPrice} euros</div>}
-        <div>Code promo</div>
-        <div>
-          <input type="text" onChange={(e)=>{setPromo(e.target.value)}}></input>
-          {promoSuccesNotif && <div> {promo} <MdOutlineCancel onClick={()=>{setDiscount(0);setpromoSuccesNotif(false);setAfterPromoPrice(0)}}/></div>}
-          {promoFailedNotif &&  <div>Code promo "{promo}" n'existe pas</div> }
-          <div onClick={()=>verifyPromo()}>Appliquer</div>
-        </div>
-        <div onClick={() =>checkout()}>Commander</div>
-      </div>)
+<div className="site-container">
+  <NavBar/>
+  <div className="cart-container">
+    {cart=== undefined ? 
+      <div className="cart-order-container background-transparent">Votre panier est vide</div>
       :
-      <div>Connectez-vous pour commander</div>
-      }
-    </div>
-    </div>
-  }
+      <div className="cart-line-container">
+      {cart.map((product) => (
+        <div key={product.idProduct} className="cart">
+          <CartLine
+          product={product}
+          setCart={setCart}
+          cart={cart}/>
+        </div>
+      ))}
+      </div>
+    }
+    {isLoggedIn ?
+    (beforePromoPrice !== 0 &&
+      <div className="cart-order-container">
+        <div className="cart-resume">
+          <div className="cart-resume-title">Résumé de la commande</div>
+          {beforePromoPrice!==0 &&<div>Prix total :  {beforePromoPrice} euros</div>}
+          {afterPromoPrice!==0 && discount!==0 && <div>Réduction : {discount} euros</div>}
+          {discount!==0 && afterPromoPrice!==0 && <div>Prix après réduction : {afterPromoPrice} euros</div>}
+          <div className="promocode">
+            <input type="text" placeholder="code promo" onChange={(e)=>{setPromo(e.target.value)}}></input>
+            <div className='clickable button' onClick={()=>verifyPromo()}>Valider</div>
+          </div>
+          {promoSuccesNotif && <div className="promocode-show"> <div>{promo}</div> <MdOutlineCancel className="clickable icon" onClick={()=>{setDiscount(0);setpromoSuccesNotif(false);setAfterPromoPrice(0)}}/></div>}
+          {promoFailedNotif &&  <div className="notif-error"><TbAlertCircle className='error-icon'/> <div>Code promo "{promo}" n'existe pas</div></div> }
+          <div className="clickable button" onClick={() =>checkout()}>Commander</div>
+        </div>
+      </div>
+    )
+    :
+    <div className="cart-order-container background-transparent">Connectez-vous pour commander</div>
+    }
+  </div>
 </div>
 
  )

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import userAPI from '../api/userAPI'
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from '../redux/authReducer'
+import {MdMail,MdPerson,MdPersonOutline, MdKey,MdPhone, MdOutlineCancel, MdLocationCity} from 'react-icons/md'
+import {TbAddressBook} from 'react-icons/tb'
+import {RxCodesandboxLogo} from 'react-icons/rx'
+import {TbAlertCircle} from 'react-icons/tb'
 
 const NewCompteCard=({isOpen})=>{
 
@@ -57,6 +61,7 @@ const addUser=()=>{
     mdp:mdp
   }
   for (const key in data) {
+    console.log(data[key])
     if(data[key]===undefined||data[key]===""){
       setNotif(true)
       return
@@ -64,6 +69,7 @@ const addUser=()=>{
   }
   setNotif(false)
   userAPI.createUser(data).then((resp) => {
+    console.log(resp.data)
     const data={
       mail:mail,
       mdp:mdp
@@ -89,56 +95,56 @@ const addUser=()=>{
 }
 
  return(
-   <div className='form'>
-    <div>Nouveau compte</div>
-    <div onClick={()=>{isOpen(false)}}>fermer</div>
-    <div className='form-input'>
-     <label>Nom</label>
-     <input type='text' onChange={(e)=>{setLastName(e.target.value)}}></input>
+   <div className='form-wrapper'>
+     <div className='form-container'>
+     <MdOutlineCancel className='close-icon clickable' onClick={()=>{isOpen(false)}}/>
+    <div className='form-title'>Nouveau compte</div>
+    <div className='form-inputs'>
+     <div className='form-input'>
+      <MdPerson className='icon'></MdPerson>
+     <input type='text' placeholder='Nom' onChange={(e)=>{setLastName(e.target.value)}}></input>
     </div>
    <div className='form-input'>
-    <label>Prénom</label>
-    <input type='text' onChange={(e)=>{setFirstName(e.target.value)}}></input>
+    <MdPersonOutline className='icon'></MdPersonOutline>
+    <input type='text' placeholder='Prénom' onChange={(e)=>{setFirstName(e.target.value)}}></input>
    </div>
    <div className='form-input'>
-    <label>Téléphone</label>
-    <input type='text' onChange={(e)=>{setTel(e.target.value)}}></input>
+    <MdPhone className='icon'></MdPhone>
+    <input type='text' placeholder='Téléphone' onChange={(e)=>{setTel(e.target.value)}}></input>
    </div>
    <div className='form-input'>
-    <label>Adresse</label>
-    <input type='text' onChange={(e)=>{setAdresse(e.target.value)}}></input>
+    <TbAddressBook className='icon'></TbAddressBook>
+    <input type='text' placeholder='Adresse' onChange={(e)=>{setAdresse(e.target.value)}}></input>
    </div>
    <div className='form-input'>
-    <label>Code Postal</label>
-    <input type='text' onChange={(e)=>{setCP(e.target.value)}}></input>
+    <RxCodesandboxLogo className='icon'/>
+    <input type='text' placeholder='Code Postale' onChange={(e)=>{setCP(e.target.value)}}></input>
    </div>
    <div className='form-input'>
-    <label>Ville</label>
-    <input type='text' onChange={(e)=>{setCity(e.target.value)}}></input>
+    <MdLocationCity className='icon'></MdLocationCity>
+     <input type='text' placeholder='Ville' onChange={(e)=>{setCity(e.target.value)}}></input>
    </div>
+   <div className='form-input'>
+   <MdMail className='icon'></MdMail>
+    <input type='email' placeholder='Mail' onChange={(e)=>{setMail(e.target.value)}}></input>
+   </div>
+   <div className='form-input'>
+    <MdKey className='icon'></MdKey>
+    <input type='password' placeholder='Mot de passe' onChange={(e)=>{setMdp(e.target.value)}}></input>
+   </div>
+   <div className='form-input'>
+   <MdKey className='icon'></MdKey>
+     <input type='password' placeholder='Resaisissez le mot de passe' onChange={(e)=>{setResetPassword(e.target.value)}}></input>
+   </div>
+   </div>
+    {mailNotif&& <div className='notif-error'><TbAlertCircle className='error-icon'/><div>Mail déjà utilisé</div></div>}
+    {passwordNotif&& <div className='notif-error'><TbAlertCircle className='error-icon'/><div>Mots de passe non identiques</div></div>}
+    {notif&& <div className='notif-error'><TbAlertCircle className='error-icon'/><div>Aucun champs ne peut être vide</div></div>}
+    {connexionNotif&& <div className='notif-error'><TbAlertCircle className='error-icon'/><div>Connexion Automatique échouée, veuillez vous connecter ultérieurement</div></div>}
+    {createUserNotif&& <div className='notif-error'><TbAlertCircle className='error-icon'/><div>Création de compte échouée, veuillez essayer ultérieurement</div></div>}
 
-   <div>Les informations suivantes servent à votre connexion</div>
-   
-   <div className='form-input'>
-    <label>Mail</label>
-    <input type='email' onChange={(e)=>{setMail(e.target.value)}}></input>
+   <div className='clickable' onClick={()=>addUser()}> Valider</div>
    </div>
-   <div className='form-input'>
-    <label>Mot de pass</label>
-    <input type='password' onChange={(e)=>{setMdp(e.target.value)}}></input>
-   </div>
-   <div className='form-input'>
-    <label>Resaisissez votre mot de passe</label>
-    <input type='password' onChange={(e)=>{setResetPassword(e.target.value)}}></input>
-    {mailNotif&& <div>Mail déjà utilisé</div>}
-    {passwordNotif&& <div>Mots de passe non identiques</div>}
-    {notif&& <div>Aucun champs ne peut être vide</div>}
-    {connexionNotif&& <div>Connexion Automatique échouée, veuillez vous connecter ultérieurement</div>}
-    {createUserNotif&& <div>Création de compte échouée, veuillez essayer ultérieurement</div>}
-
-   </div>
-
-   <div onClick={()=>addUser()}> Valider</div>
   </div>
  )
 

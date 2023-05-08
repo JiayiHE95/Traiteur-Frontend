@@ -1,19 +1,27 @@
 import axiosInstance from './axiosInstance'
 const orderAPI={
-
- getUserByMail(mail){
-  return axiosInstance.get(`user/get-user-by-mail/${mail}`)
- },
  
- connexion(data){
-  return axiosInstance.post(`user/connexion`,data)
+ createOrder(data){
+  return axiosInstance.post(`order/create`,data)
  },
- createUser(data){
-  return axiosInstance.post(`user/create-user`,data)
+ getUserByOrder(idOrder){
+  return axiosInstance.get(`order/get-user-by-order/${idOrder}`)
  },
- check(data){
-  return axiosInstance.get(`user/isLogged`,data)
+ addOrderDetails(data){
+  return axiosInstance.post(`order/add-orderdetails`,data)
  },
+ changeStatus(data){
+  return axiosInstance.post(`order/change-status`,data)
+ },
+ getOrders(idUser){
+  return axiosInstance.get(`order/get-orders-by-user/${idUser}`)
+ },
+ getAllOrders(){
+  return axiosInstance.get(`order/getall`)
+ },
+ getAllOrdersByFilter(param,value){
+  return axiosInstance.get(`order/get-orders-by/${param}/${value}`)
+ }
 
 }
 export default orderAPI

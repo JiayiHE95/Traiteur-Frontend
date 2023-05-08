@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import userAPI from '../api/userAPI'
 import {useNavigate} from 'react-router-dom'
+import {MdMail,MdPerson,MdPersonOutline, MdKey,MdPhone, MdOutlineCancel, MdLocationCity} from 'react-icons/md'
+import {TbAlertCircle} from 'react-icons/tb'
 
 const PasswordResetCard=({isOpen})=>{
 
@@ -12,6 +14,7 @@ const PasswordResetCard=({isOpen})=>{
   const [resetPassword, setResetPassword]=useState()
   const [notif, setNotif]=useState(false)
   const [mailNotif, setMailNotif]=useState()
+  const [succesNotif, setSuccesNotif]=useState(false)
   const [passwordNotif, setPasswordNotif]=useState(false)
   const navigate=useNavigate()
   const { token } = useParams();
@@ -39,7 +42,12 @@ const PasswordResetCard=({isOpen})=>{
   const passwordForgot=()=>{
     const data={mail:mail}
     userAPI.passwordForgot(data).then((resp) => {
-      setMailNotif(resp.data)
+      //TODO change icone de error /valide
+      setMailNotif(resp.data.message)
+      if(resp.data.reset){
+        setSuccesNotif(true)
+      }
+
     })
   }
 
@@ -47,47 +55,63 @@ const PasswordResetCard=({isOpen})=>{
     if (resetPassword!==mdp || mdp==="" || user ===undefined) {return}
     const data={mdp:mdp, mail:user.mail}
     userAPI.passwordReset(data).then((resp) => {
-      setMailNotif(resp.data)
+      setMailNotif(resp.data.message)
+      if(resp.data.reset){
+        setSuccesNotif(true)
+      }
     })
   }
 
   return(
     token ? (
       isValide && user ?
-      <div className='form'>
-        <div>Réinitialisez le mot de pass</div>
-        <div>{user.mail}</div>
-        <div className='form-input'>
-          <label>Mot de pass</label>
-          <input type='password' onChange={(e)=>{setMdp(e.target.value)}}></input>
+      <div className="site-container">
+       <div className='form-wrapper'>
+        <div className='form-container'>
+          <div className='form-title'>Nouveau mot de passe</div>
+          <div className='passwordreset-mail'>  
+               <div>{user.mail}</div>
+          </div>
+          <div className='form-inputs'>
+            <div className='form-input'>
+               <MdKey className='icon'></MdKey>
+              <input type='password' placeholder='Nouveau mot de passe' onChange={(e)=>{setMdp(e.target.value)}}></input>
+            </div>
+            <div className='form-input'>
+               <MdKey className='icon'></MdKey>
+              <input type='password' placeholder='Resaisir le mot de passe' onChange={(e)=>{setResetPassword(e.target.value)}}></input>
+            </div>
+          </div>
+            {passwordNotif&& <div className='notif-error'><TbAlertCircle className='error-icon'/><div>Mots de passe non identiques</div></div>}
+            {notif&& <div className='notif-error'><TbAlertCircle className='error-icon'/><div>Aucun champs ne peut être vide</div></div>}
+            {mailNotif &&<div className='notif-error'>{mailNotif}</div>}
+            {!succesNotif && <div className='clickable' onClick={()=>passwordReset()}> Valider</div>}
+            <div className='clickable' onClick={()=>{navigate("/")}}>Retourner à la page d'accueil</div>
         </div>
-        <div className='form-input'>
-          <label>Mot de passe oublié</label>
-          <input type='password' onChange={(e)=>{setResetPassword(e.target.value)}}></input>
-          {passwordNotif&& <div>Mots de passe non identiques</div>}
-          {notif&& <div>Aucun champs ne peut être vide</div>}
-        </div>
-        <div onClick={()=>passwordReset()}> Valider</div>
-        {mailNotif&&<div>{mailNotif}</div>}
-        <div onClick={()=>{navigate("/")}}>Retourner à la page d'accueil</div>
       </div>
+         </div>
       :
-      <div>
-        <div>Token expiré, veuillez refaire une demande d'initialisation du mot de passe</div>
-        <div onClick={()=>{navigate("/")}}>Retourner à la page d'accueil</div>
+      <div className="site-container">
+        <div className='passwordreset-token'>
+          <div>Token expiré, veuillez refaire une demande d'initialisation du mot de passe</div>
+          <div className='clickable' onClick={()=>{navigate("/")}}>Retourner à la page d'accueil</div>
+        </div>
       </div>
     )
     :
-    <div className='form'>
-      <div>Mot de passe oublié</div>
-      <div onClick={()=>{isOpen(false)}}>fermer</div>
-      <div className='form-input'>
-      <label>Mail</label>
-        <input type='text' onChange={(e)=>{setMail(e.target.value)}}></input>
+    <div className='form-wrapper'>
+      <div className='form-container'>
+        <MdOutlineCancel className='close-icon clickable' onClick={()=>{isOpen(false)}}/>
+        <div className='form-title'>Mot de passe oublié</div>
+        <div className='form-inputs'>
+          <div className='form-input'>
+            <MdMail className='icon'></MdMail> 
+            <input type='text' placeholder='Mail' onChange={(e)=>{setMail(e.target.value)}}></input>
+          </div>
+        </div>
+        {mailNotif&&<div className='notif-error'>{mailNotif}</div>}
+        {!succesNotif && <div className='clickable' onClick={()=>passwordForgot()}> Valider</div>}
       </div>
-      <div onClick={()=>passwordForgot()}> Valider</div>
-      {mailNotif&&<div>{mailNotif}</div>}
-      <div onClick={()=>{navigate("/")}}>Retourner à la page d'accueil</div>
     </div>
     
   )

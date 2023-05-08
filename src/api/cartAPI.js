@@ -13,8 +13,8 @@ const cartAPI={
  mergeCart(data){
   return axiosInstance.post(`cart/merge`,data)
  },
- deleteCart(data){
-  return axiosInstance.delete(`cart/delete`,data)
+ deleteCart(idUser){
+  return axiosInstance.delete(`cart/delete/${idUser}`)
  },
 
 }

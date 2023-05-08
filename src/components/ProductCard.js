@@ -53,11 +53,11 @@ const ProductCard=({product})=>{
 
  return(
   path!==undefined&&
-  <div>
-   <img src={path} style={{width: "200px", height: "200px"}}/>
+  <div className='product-detail'>
+   <img src={path}/>
    <div>{product.nameProduct}</div>
-   <div>{product.categorie}</div>
-   <div>{product.price}</div>
+   <div>{product.category}</div>
+   <div>{product.price} euros</div>
    <input type='number' min="0" max="100" onChange={(e)=>handleChangeQuantity(e.target.value)}/>
   </div>
  ) 

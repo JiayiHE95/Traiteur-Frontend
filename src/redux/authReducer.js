@@ -21,17 +21,36 @@ const authReducerInit = () => {
  }
 }
 
-const updateCart =()=>{
+export const updateCart =(setVisitorCart=true)=>{
   let cart= JSON.parse(localStorage.getItem("cart"))
-  const data={
-    cart:cart.cart,
-    idUser:JSON.parse(localStorage.getItem("auth")).user.idUser
+  let user=JSON.parse(localStorage.getItem("auth"))
+  if(cart&&user){
+    const data={
+      cart:cart.cart,
+      idUser:user.user.idUser
+    }
+    cartAPI.updateCart(data).then((resp) => {
+    }).catch(error => {
+    console.log(error)
+    })
+    cart && setVisitorCart && localStorage.setItem("visitorCart",JSON.stringify({cart:cart.cart}))
   }
-  cartAPI.updateCart(data).then((resp) => {
-  }).catch(error => {
-  console.log(error)
-  })
-  cart && localStorage.setItem("visitorCart",JSON.stringify({cart:cart.cart}))
+}
+
+export const getUser =()=>{
+  let user=JSON.parse(localStorage.getItem("auth"))
+  let token=JSON.parse(localStorage.getItem("auth")).token
+  if(user){
+    userAPI.getUserById(user.user.idUser).then((resp) => {
+      console.log(resp.data)
+      localStorage.setItem("auth",JSON.stringify({
+        token: token,
+        user:resp.data
+       }))
+    }).catch(error => {
+    console.log(error)
+    })
+  }
 }
 
 const initialState = authReducerInit();
@@ -48,10 +67,20 @@ const authSlice = createSlice({
          state.isAdmin = auth.user.isAdmin
      },
 
+     loginUpdate(state) {
+      getUser()
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      state.isLoggedIn = true
+      state.token = auth.token
+      state.user = auth.user
+      state.isAdmin = auth.user.isAdmin
+    },
+
      loginTimeOut(state) {  
       updateCart()
       localStorage.removeItem('auth')
       localStorage.removeItem('cart')
+      localStorage.removeItem('codePromo')
       state.isLoggedIn = false
       state.token = null
       state.user = null
@@ -62,6 +91,7 @@ const authSlice = createSlice({
       updateCart()
       localStorage.removeItem('auth')
       localStorage.removeItem('cart')
+      localStorage.removeItem('codePromo')
       state.isLoggedIn = false
       state.token = null
       state.user = null

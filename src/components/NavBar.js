@@ -6,15 +6,18 @@ import { authActions } from '../redux/authReducer'
 import LoginCard from './LoginCard'
 import NewCompteCard from './NewCompteCard'
 import PasswordResetCard from './PasswordResetCard'
+import {FaBars} from 'react-icons/fa'
 
-const NavBar =({show=true})=>{
+const NavBar =()=>{
  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
  const user = useSelector(state => state.auth.user)
  const navigate=useNavigate()
  const [isOpenedLogin, setIsOpenedLogin] = useState(false)
  const [isOpenedNewCompte, setIsOpenedNewCompte] = useState(false)
  const [isOpenedPasswordReset, setIsOpenedPasswordReset] = useState(false)
+ const [isOpenedDropdown, setIsOpenedDropdown] = useState(false)
  const dispatch = useDispatch();
+ let imagePath = window.location.origin+"/picture/";
  
  useEffect(()=>{ 
   dispatch(verifyToken())
@@ -25,31 +28,53 @@ const NavBar =({show=true})=>{
   isOpenedNewCompte && setIsOpenedLogin(false)
  },[isOpenedLogin,isOpenedNewCompte])
 
+
  return(
-  <div>
-   <div onClick={()=>{navigate("/")}}>titre : Traiteur chinois</div>
+  <div className='navbar-container'>
+   <div className='logo clickable' onClick={()=>{navigate("/")}}>
+      <img src={imagePath+'logo1.png'}  />
+      <div className='logo-name'>Traiteur LIAN</div>
+   </div>
+   <div className='clickable toggle' onClick={()=>{setIsOpenedDropdown(!isOpenedDropdown)}}><FaBars/></div>
    {isLoggedIn && user ?
-    <div>
-     {user.isAdmin ==1 &&<div>page Admin</div>}
-     <div onClick={()=>dispatch(authActions.logout())}>Déconnecion</div>
-     <div onClick={()=>{navigate("/home/:idUser")}}>{user.firstname}</div>
-     <div onClick={()=>{navigate("/panier")}}>Panier</div>
+    <div className='navbar'>
+      <div className='clickable' onClick={()=>{navigate("/about")}}>About</div>
+      {(user.isAdmin ===1 || user.isAdmin ===true) &&
+      <div className='clickable' onClick={()=>{navigate("/home/admin")}}>Admin</div>}
+      <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
+      <div className='clickable' onClick={()=>dispatch(authActions.logout())}>Déconnecion</div>
+      <div className='clickable' onClick={()=>{navigate(`/home/user/${user.idUser}`)}}>{user.firstname}</div>
+      <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
     </div>
     :
-    <div>
-     <div onClick={()=>setIsOpenedLogin(true)}>Connexion</div>
-     <div onClick={()=>setIsOpenedNewCompte(true)}>Créer un compte</div>
-     <div onClick={()=>{navigate("/panier")}}>Panier</div>
+    <div className='navbar'>
+      <div className='clickable' onClick={()=>{navigate("/about")}}>About</div>
+      <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
+      <div className='clickable login-popup' onClick={()=>setIsOpenedLogin(true)}>Connexion</div>
+      <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
     </div>
    }  
-   {show&&
-   <div>
-    <div onClick={()=>{navigate("/")}}>Home</div>
-    <div onClick={()=>{navigate("/products")}}>Produits</div>
-   </div>
-   }   
 
-   {isOpenedLogin&& <LoginCard isOpen={setIsOpenedLogin} reset={setIsOpenedPasswordReset}/>}
+  {isLoggedIn && user ?
+    <div className={isOpenedDropdown ? 'dropdown-navbar-open':'dropdown-navbar'}>
+      <div className='clickable' onClick={()=>{navigate("/about")}}>About</div>
+      {(user.isAdmin ===1 || user.isAdmin ===true) &&
+      <div className='clickable' onClick={()=>{navigate("/home/admin")}}>Admin</div>}
+      <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
+      <div className='clickable' onClick={()=>{dispatch(authActions.logout());setIsOpenedDropdown(!isOpenedDropdown)}}>Déconnecion</div>
+      <div className='clickable' onClick={()=>{navigate(`/home/user/${user.idUser}`)}}>{user.firstname}</div>
+      <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
+    </div>
+    :
+    <div className={isOpenedDropdown ? 'dropdown-navbar-open':'dropdown-navbar'} >
+      <div className='clickable' onClick={()=>{navigate("/about")}}>About</div>
+      <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
+      <div className='clickable login-popup' onClick={()=>{setIsOpenedLogin(true);setIsOpenedDropdown(!isOpenedDropdown)}}>Connexion</div>
+      <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
+    </div>
+   }  
+
+   {isOpenedLogin&& <LoginCard isOpen={setIsOpenedLogin} newCompte={setIsOpenedNewCompte} reset={setIsOpenedPasswordReset}/>}
    {isOpenedNewCompte&& <NewCompteCard isOpen={setIsOpenedNewCompte} />}
    {isOpenedPasswordReset&&<PasswordResetCard isOpen={setIsOpenedPasswordReset}/>}
    </div>

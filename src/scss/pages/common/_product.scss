@@ -1,0 +1,57 @@
+.product-container {
+ margin-top: 100px;
+ height:80vh;
+ padding-top: 50px;
+ position: relative;
+ display: flex;
+ justify-content: center;
+ flex-wrap: wrap;
+ overflow-y:auto;
+ scrollbar-width:thin;
+ scrollbar-color: rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.5);
+
+}
+
+.product-container::-webkit-scrollbar {
+ width: 3px; 
+}
+
+.product-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5); /* Couleur du bouton */
+  border-radius: 10px; /* Bord arrondi */
+ }
+
+ .product-container::-webkit-scrollbar-thumb:hover {
+ background-color: rgba(255, 255, 255, 0.8);
+}
+
+.product{
+ margin: 20px;
+ border: 2px solid rgba(255,255,255,.5);
+ background-color: transparent;
+ border-radius: 20px;
+ backdrop-filter: blur(20px);
+ box-shadow: 0 0 30px rgba(0,0,0,.9);
+}
+
+.product-detail{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ padding: 5px;
+ font-size: 1.2em;
+
+ img{
+  border-radius: 20px;
+  width: 200px;
+  height: 200px;
+ }
+
+ input{
+  color: #8F2113;
+  font-size: 1em;
+  font-weight: bold;
+  align-items: flex-end;
+ }
+
+}

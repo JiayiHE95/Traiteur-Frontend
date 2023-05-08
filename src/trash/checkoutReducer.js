@@ -8,7 +8,7 @@ const checkoutReducerInit = () => {
    codePromo: null,
    discount: 0,
    afterPromoPrice:0,
-   cart:cart
+   cart:cart.cart
  }
 } catch {
  return {
