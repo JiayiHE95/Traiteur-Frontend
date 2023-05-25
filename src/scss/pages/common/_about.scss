@@ -103,9 +103,11 @@
 .presentation::-webkit-scrollbar {
  width: 3px; 
 }
+
 .presentation::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.5); /* Couleur du bouton */
-  border-radius: 10px; /* Bord arrondi */
+  background-color: rgba(255, 255, 255, 0.5); 
+  border-radius: 10px; 
+  margin-top: 20px;
  }
 
  .presentation::-webkit-scrollbar-thumb:hover {
@@ -113,17 +115,32 @@
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 650px) {
  .site-content{
   flex-direction: column;
   align-items: center;
-  height: auto;
+  height: 80vh;
  }
  .presentation{
   width: 90%;
-  height: auto;
+  height: 80vh;
   margin-bottom: 5%;
   align-self: center;
-  overflow:hidden
+  overflow-y: auto;
  }
+
+ .presentation::-webkit-scrollbar {
+  width: 3px; 
+ }
+
+ .slideshow-container{
+  display: none;
+ }
+}
+
+@media screen and (max-width: 375px) {
+  .presentation{
+    font-size: 1em;
+  }
+
 }

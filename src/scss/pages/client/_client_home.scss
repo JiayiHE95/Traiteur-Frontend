@@ -48,3 +48,18 @@
   }
  }
 }
+
+@media screen and (max-width: 650px) {
+  .client-home{
+    flex-direction: column;
+    margin-top: 100px;
+    height:80vh;
+    padding-top: 250px;
+    position: relative;
+    >div{
+      width: 90%;
+      align-self: center;
+    }
+   
+  }
+}

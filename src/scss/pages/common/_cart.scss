@@ -168,6 +168,24 @@
   font-size: 1.5em;
 }
 
+@media screen and (max-width: 425px) {
+  .cart-container{
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .cart-line-container{
+    width: 100%;
+    height: 50%;
+  }
+
+  .cart-order-container{
+    width: 100%;
+    margin: 0;
+  }
+}
 
 
 
