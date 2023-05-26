@@ -208,15 +208,15 @@ const Checkout = () => {
         
         <div className="checkout-resume">
           <div className="title">Résumé de la commande</div>
-          {beforePromoPrice!==0 &&<div>Prix total :  {beforePromoPrice} euros</div>}
-          {afterPromoPrice!==0 && discount!==0 && <div>Réduction : {discount} euros</div>}
-          {discount!==0 && afterPromoPrice!==0 && <div>Prix final : {afterPromoPrice} euros ({codePromo})</div>}
+          {beforePromoPrice!==0 &&<div>Prix total :  {beforePromoPrice} €</div>}
+          {afterPromoPrice!==0 && discount!==0 && <div>Réduction : {discount} €</div>}
+          {discount!==0 && afterPromoPrice!==0 && <div>Prix final : {afterPromoPrice} € ({codePromo})</div>}
       
           <div style={{fontWeight:"bold"}}>Dans votre panier</div>
           {cart && cart.map((product,index)=>(
             <div key={index} className="checkout-resume-product">
               <div>{product.product.nameProduct} × {product.quantity}</div>
-              <div>{product.product.price*product.quantity} euros </div>
+              <div>{product.product.price*product.quantity} € </div>
             </div>
           ))}
           {dateNotif&&<div className="notif-error"><TbAlertCircle className='error-icon'/><div>Veuillez saisir la date de livraison</div></div>}

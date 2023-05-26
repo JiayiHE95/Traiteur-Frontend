@@ -56,9 +56,9 @@ const About = () => {
     </div>
     <div className="slideshow-container">
       <div className="slideshow">
-          <div className="prev" onClick={() => slideIndex!==1? plusSlides(-1):setSlideIndex(slides.length)}>&#10094;</div>
+          {/*<div className="prev" onClick={() => slideIndex!==1? plusSlides(-1):setSlideIndex(slides.length)}>&#10094;</div>*/}
           {slides}
-          <div className="next" onClick={() => slideIndex===slides.length? setSlideIndex(1):plusSlides(1)}>&#10095;</div>
+          {/*<div className="next" onClick={() => slideIndex===slides.length? setSlideIndex(1):plusSlides(1)}>&#10095;</div>*/}
       </div>
       <div className="dot-container">{dots}</div>
     </div>

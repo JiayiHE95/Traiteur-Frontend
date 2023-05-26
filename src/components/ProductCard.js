@@ -57,7 +57,7 @@ const ProductCard=({product})=>{
    <img src={path}/>
    <div>{product.nameProduct}</div>
    <div>{product.category}</div>
-   <div>{product.price} euros</div>
+   <div>{product.price} €</div>
    <input type='number' min="0" max="100" onChange={(e)=>handleChangeQuantity(e.target.value)}/>
   </div>
  ) 

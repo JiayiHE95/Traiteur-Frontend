@@ -9,6 +9,7 @@
  box-sizing: border-box;
  font-family:'Perpetua', sans-serif;
 }
+
 .clickable {
  &:hover {
   cursor: pointer;
@@ -96,4 +97,10 @@ input[type=date]:valid {
   text-align: center;
   width: 90%;
   margin-top: 10px;
+}
+
+@media screen and (max-width: 750px) {
+  .button{
+    font-size: 0.8em;
+  }
 }

@@ -78,7 +78,7 @@ const deleteProduct=()=>{
    <img src={path}/>
    <div>{product.nameProduct}</div>
    <div>{product.category}</div>
-   <div>{product.price} euros</div>
+   <div>{product.price} €</div>
    <div className='clickable button' onClick={()=>{setModify(true); setSuccess(false)}}>Modifier</div>
    </div>
    :

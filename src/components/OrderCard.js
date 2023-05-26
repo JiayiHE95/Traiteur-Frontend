@@ -54,13 +54,13 @@ const OrderCard=({order, isAdmin=false, pageAdmin=false})=>{
       onChange={(option) => { setOrderStatus(option.value) }}
       classNamePrefix="Status-select"
     />
-    {isModified && <div>Statut modifié</div>}
+    {isModified && <div className='notif-succes'>Statut modifié</div>}
    </div>
    }
    
    <div>
-   <div>Prix total : {order.totalprice} euros </div>
-   {order.paid !== order.totalprice && <div> Prix après réduction: {order.paid} euros</div>}
+   <div>Prix total : {order.totalprice} € </div>
+   {order.paid !== order.totalprice && <div> Prix après réduction: {order.paid} €</div>}
    </div>
     <div>
     <div>Date de commande : {order.createdAt.split('T')[0]}</div>

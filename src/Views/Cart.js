@@ -99,13 +99,13 @@ const Cart = () => {
       <div className="cart-order-container">
         <div className="cart-resume">
           <div className="cart-resume-title">Résumé de la commande</div>
-          {beforePromoPrice!==0 &&<div>Prix total :  {beforePromoPrice} euros</div>}
-          {afterPromoPrice!==0 && discount!==0 && <div>Réduction : {discount} euros</div>}
-          {discount!==0 && afterPromoPrice!==0 && <div>Prix après réduction : {afterPromoPrice} euros</div>}
+          {beforePromoPrice!==0 &&<div>Prix total :  {beforePromoPrice} €</div>}
+          {afterPromoPrice!==0 && discount!==0 && <div>Réduction : {discount} €</div>}
+          {discount!==0 && afterPromoPrice!==0 && <div>Prix après réduction : {afterPromoPrice} €</div>}
           <div className="promocode">
             <input type="text" placeholder="code promo" onChange={(e)=>{setPromo(e.target.value)}}></input>
-            <div className='clickable button' onClick={()=>verifyPromo()}>Valider</div>
           </div>
+            <div className='clickable button' onClick={()=>verifyPromo()}>Valider code</div>
           {promoSuccesNotif && <div className="promocode-show"> <div>{promo}</div> <MdOutlineCancel className="clickable icon" onClick={()=>{setDiscount(0);setpromoSuccesNotif(false);setAfterPromoPrice(0)}}/></div>}
           {promoFailedNotif &&  <div className="notif-error"><TbAlertCircle className='error-icon'/> <div>Code promo "{promo}" n'existe pas</div></div> }
           <div className="clickable button" onClick={() =>checkout()}>Commander</div>

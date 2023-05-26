@@ -103,6 +103,9 @@ transform: scale(1);
  .dropdown-navbar-open{
   display: none;
  }
+ .logo img{
+  max-width: 8vh;
+ }
 }
 
 @media screen and (max-width: 768px) {
@@ -112,6 +115,10 @@ transform: scale(1);
  .toggle{
   display: block;
  }
+ .logo-name{
+  display: none;
+ }
+ 
 }
 
 @media screen and (max-width: 425px) {

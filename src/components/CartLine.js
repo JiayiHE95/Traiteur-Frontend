@@ -29,8 +29,8 @@ const CartLine = ({product,cart,setCart}) => {
    <div className="cart-detail">
       <div><img src={product.path}/></div>
       <div>{product.product.nameProduct}</div>
-      <div>{price*product.quantity} euros </div>
-      <div>Quantité :  
+      <div>{price*product.quantity} € </div>
+      <div> 
         <input type='number' min="0" max="100" value={product.quantity} onChange={(e)=>handleChangeQuantity(product.idProduct,e.target.value)}/>
       </div>
       <MdOutlineCancel className="icon clickable" onClick={()=>handleChangeQuantity(product.idProduct,0)}/>

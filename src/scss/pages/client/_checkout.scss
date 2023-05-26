@@ -159,3 +159,31 @@
     }
   }
 }
+
+@media screen and (max-width: 750px) {
+  .checkout-container{
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    font-size: 1em;
+    .checkout-container::-webkit-scrollbar {
+      width: 3px; 
+     }
+     
+     .checkout-container::-webkit-scrollbar-thumb {
+       background-color: rgba(255, 255, 255, 0.5); /* Couleur du bouton */
+       border-radius: 10px; /* Bord arrondi */
+      }
+     
+      .checkout-container::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+     }
+    .delivery-adresse{
+      width: 80%;
+      margin-bottom: 5%;
+    }
+    .checkout-resume{
+      width: 80%;
+    }
+  }
+}
