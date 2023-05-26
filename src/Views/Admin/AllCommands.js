@@ -39,9 +39,9 @@ const AllCommands = () => {
     </div>
     <div className="admin-filtre">
       <div className="clickable button" onClick={()=>{setCloseFilter(true)}}> All </div>
-      <div className="clickable button" onClick={()=>{setFilter({param:"orderstatus",value:"créée"})}}> Créée </div>
-      <div className="clickable button" onClick={()=>{setFilter({param:"orderstatus",value:"préparation en cours"})}}> Préparation en cours </div>
-      <div className="clickable button" onClick={()=>{setFilter({param:"orderstatus",value:"livrée"})}}> Livrée </div>
+      <div className="clickable button" onClick={()=>{setFilter({param:"orderstatus",value:"CREEE"})}}> NEW </div>
+      <div className="clickable button" onClick={()=>{setFilter({param:"orderstatus",value:"EN PREPARATION"})}}> EN PREPARATION </div>
+      <div className="clickable button" onClick={()=>{setFilter({param:"orderstatus",value:"LIVREE"})}}> LIVREE </div>
     </div>
     <div className="archive-container">
       {orders && orders.length!==0 ?orders.map((order)=>
