@@ -38,11 +38,10 @@ const ArchiveProduct=({product})=>{
   }
  },[pictures])
 
- //TODODEV: modifier la case categorie dans la base de données
  const options=[
-  { value: 'Entrée', label: 'Entrée' },
-  { value: 'Plat', label: 'Plat' },
-  { value: 'Dessert', label: 'Dessert' }
+  { value: 'ENTREE', label: 'Entrée' },
+  { value: 'PLAT', label: 'Plat' },
+  { value: 'DESSERT', label: 'Dessert' }
 ]
 
 const updateProduct=()=>{

@@ -35,9 +35,9 @@ const AllProducts = () => {
     </div>
     <div className="admin-filtre">
       <div className="clickable button" onClick={()=>{setCloseFilter(true)}}> All </div>
-      <div className="clickable button" onClick={()=>{setFilter({param:"category",value:"entree"})}}> Entrée </div>
-      <div className="clickable button" onClick={()=>{setFilter({param:"category",value:"plat"})}}> Plat </div>
-      <div className="clickable button" onClick={()=>{setFilter({param:"category",value:"dessert"})}}> Dessert </div>
+      <div className="clickable button" onClick={()=>{setFilter({param:"category",value:"ENTREE"})}}> Entrée </div>
+      <div className="clickable button" onClick={()=>{setFilter({param:"category",value:"PLAT"})}}> Plat </div>
+      <div className="clickable button" onClick={()=>{setFilter({param:"category",value:"DESSERT"})}}> Dessert </div>
     </div>
     <div className="archive-container">
       {products && products.length!==0 ? products.map((product)=>

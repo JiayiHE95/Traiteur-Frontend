@@ -33,9 +33,9 @@ const OrderCard=({order, isAdmin=false, pageAdmin=false})=>{
  },[orderStatus])
 
  const options=[
-  { value: 'livrée', label: 'Livrée' },
-  { value: 'créée', label: 'Créée' },
-  { value: 'préparation en cours', label: 'Préparation en cours' }
+  { value: 'LIVREE', label: 'Livrée' },
+  { value: 'CREEE', label: 'Créée' },
+  { value: 'EN PREPARATION', label: 'En Préparation' }
 ]
 
  return(
