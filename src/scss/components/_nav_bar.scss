@@ -79,11 +79,11 @@ transform: scale(1);
 
 .dropdown-navbar-open{
  position: absolute;
- top: 100%;
- right: 5%;
- width: 40%;
+ top: 80%;
+ right: 0%;
+ width: 100%;
  padding: 3%;
- color: white;
+ color: #D6991C;
  text-align:center;
  font-size: 1.3em;
  border: 2px solid rgba(255,255,255,.5);
@@ -92,9 +92,17 @@ transform: scale(1);
  backdrop-filter: blur(60px);
  box-shadow: 0 0 30px rgba(0,0,0,.5);
  overflow: hidden;
+ background-color:#8F2113;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ padding: 10px;
+ height: 50vh;
+ display: flex;
+ flex-direction: column;
+ font-weight: bold;
 
  >div{
-  margin: 10px 0;
+  margin: auto 0;
   cursor: pointer;
  }
 }
@@ -103,9 +111,7 @@ transform: scale(1);
  .dropdown-navbar-open{
   display: none;
  }
- .logo img{
-  max-width: 8vh;
- }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -118,6 +124,10 @@ transform: scale(1);
  .logo-name{
   display: none;
  }
+ .logo img{
+  max-width: 7vh;
+
+ }
  
 }
 
@@ -125,6 +135,7 @@ transform: scale(1);
  .dropdown-navbar-open{
   width: 95%;
   right: 2.5%;
+  height: 80vh;
  }
 
 }

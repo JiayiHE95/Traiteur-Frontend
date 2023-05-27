@@ -46,13 +46,18 @@ const Checkout = () => {
     const today = new Date()
     const afterTomorrow = new Date(today.setDate(today.getDate() + 3)).toISOString().split('T')[0]
     setDate(afterTomorrow)
-    let cart=JSON.parse(localStorage.getItem("cart")).cart
-    setCart(cart)
-    let beforePromoPrice=parseInt(0)
-    cart.forEach(product=>{
-      beforePromoPrice+=product.product.price*product.quantity
-    })
-    setBeforePromoPrice(beforePromoPrice)
+    let cart=JSON.parse(localStorage.getItem("cart"))?.cart
+    if(cart===undefined || cart.length===0){
+      navigate("/")
+    }else{
+      setCart(cart)
+      let beforePromoPrice=parseInt(0)
+      cart.forEach(product=>{
+        beforePromoPrice+=product.product.price*product.quantity
+      })
+      setBeforePromoPrice(beforePromoPrice)
+    }
+      
   },[])
   
   
@@ -137,7 +142,7 @@ const Checkout = () => {
   }
 
   return(
-    (!isLoggedIn || cart===[])  ? <Navigate to={'/'} />:
+    (!isLoggedIn || cart===[] || cart===null)  ? <Navigate to={'/'} />:
   
     <div className="site-container">
       <NavBar/>

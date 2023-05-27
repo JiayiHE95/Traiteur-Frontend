@@ -42,16 +42,16 @@ const NavBar =()=>{
       {(user.isAdmin ===1 || user.isAdmin ===true) &&
       <div className='clickable' onClick={()=>{navigate("/home/admin")}}>Admin</div>}
       <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
-      <div className='clickable' onClick={()=>dispatch(authActions.logout())}>Déconnecion</div>
       <div className='clickable' onClick={()=>{navigate(`/home/user/${user.idUser}`)}}>{user.firstname}</div>
       <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
+      <div className='clickable' onClick={()=>dispatch(authActions.logout())}>Déconnexion</div>
     </div>
     :
     <div className='navbar'>
       <div className='clickable' onClick={()=>{navigate("/about")}}>About</div>
       <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
-      <div className='clickable login-popup' onClick={()=>setIsOpenedLogin(true)}>Connexion</div>
       <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
+      <div className='clickable login-popup' onClick={()=>setIsOpenedLogin(true)}>Connexion</div>
     </div>
    }  
 
@@ -61,16 +61,16 @@ const NavBar =()=>{
       {(user.isAdmin ===1 || user.isAdmin ===true) &&
       <div className='clickable' onClick={()=>{navigate("/home/admin")}}>Admin</div>}
       <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
-      <div className='clickable' onClick={()=>{dispatch(authActions.logout());setIsOpenedDropdown(!isOpenedDropdown)}}>Déconnecion</div>
       <div className='clickable' onClick={()=>{navigate(`/home/user/${user.idUser}`)}}>{user.firstname}</div>
       <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
+      <div className='clickable' onClick={()=>{dispatch(authActions.logout());setIsOpenedDropdown(!isOpenedDropdown)}}>Déconnexion</div>
     </div>
     :
     <div className={isOpenedDropdown ? 'dropdown-navbar-open':'dropdown-navbar'} >
       <div className='clickable' onClick={()=>{navigate("/about")}}>About</div>
       <div className='clickable' onClick={()=>{navigate("/products")}}>Produits</div>
-      <div className='clickable login-popup' onClick={()=>{setIsOpenedLogin(true);setIsOpenedDropdown(!isOpenedDropdown)}}>Connexion</div>
       <div className='clickable' onClick={()=>{navigate("/panier")}}>Panier</div>
+      <div className='clickable login-popup' onClick={()=>{setIsOpenedLogin(true);setIsOpenedDropdown(!isOpenedDropdown)}}>Connexion</div>
     </div>
    }  
 
