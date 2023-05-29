@@ -51,7 +51,7 @@ const LoginCard=({isOpen, newCompte, reset})=>{
       mdp:mdp
     }
     userAPI.connexion(data).then((resp) => {
-      console.log(resp.data)
+      //console.log(resp.data)
       if(resp.data.auth){
         mergeCart(resp.data.user.idUser)
         localStorage.setItem("auth",JSON.stringify({

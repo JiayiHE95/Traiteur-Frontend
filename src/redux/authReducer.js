@@ -42,7 +42,6 @@ export const getUser =()=>{
   let token=JSON.parse(localStorage.getItem("auth")).token
   if(user){
     userAPI.getUserById(user.user.idUser).then((resp) => {
-      console.log(resp.data)
       localStorage.setItem("auth",JSON.stringify({
         token: token,
         user:resp.data
@@ -122,7 +121,7 @@ export const verifyToken=()=>{
         })
       }
      } catch{ 
-      console.log("une erreur est survenu lors de la vérification du token")
+      //console.log("une erreur est survenu lors de la vérification du token")
      }
   }
 }

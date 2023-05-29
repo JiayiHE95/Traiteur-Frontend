@@ -61,7 +61,6 @@ const Checkout = () => {
   },[])
   
   
-  console.log(cart)
   useEffect(()=>{
     let codePromo =JSON.parse(localStorage.getItem("codePromo"))
     if(codePromo?.codePromo && isLoggedIn){
@@ -123,7 +122,6 @@ const Checkout = () => {
     }
 
     orderAPI.createOrder(data).then((resp) => {
-      console.log(resp.data)
       let data={
         userId:user.idUser,
         cart:cart,

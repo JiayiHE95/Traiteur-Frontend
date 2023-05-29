@@ -61,7 +61,6 @@ const addUser=()=>{
     mdp:mdp
   }
   for (const key in data) {
-    console.log(data[key])
     if(data[key]===undefined||data[key]===""){
       setNotif(true)
       return

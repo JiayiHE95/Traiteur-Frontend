@@ -15,7 +15,6 @@ const AllUsers = () => {
   useEffect(()=>{
    userAPI.getAllUsers().then((resp) => {
      setUsers(resp.data)
-     console.log(resp.data)
    })
   },[])
  

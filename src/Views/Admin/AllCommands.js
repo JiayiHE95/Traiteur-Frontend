@@ -22,7 +22,6 @@ const AllCommands = () => {
   if (filter){
    if (filter.value.includes("-")){
     filter.value=filter.value.split(" ")[0]+" 00:00:00"
-    console.log(filter)
    }
    orderAPI.getAllOrdersByFilter(filter.param, filter.value).then((resp) => {
    setOrders(resp.data)

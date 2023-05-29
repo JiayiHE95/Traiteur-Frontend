@@ -12,7 +12,6 @@ const ConfirmOrder = () => {
 
  useEffect(()=>{
   orderAPI.getUserByOrder(idOrder).then((resp) => {
-    console.log(resp.data)
     if(resp.data.idUser!==user.idUser){
       navigate(`/`)
     }

@@ -12,8 +12,6 @@ const ClientHome = () => {
  const {idUser}=useParams() 
  const [orders,setOrders]=useState()
 
-
-console.log(orders)
  useEffect(()=>{
   orderAPI.getOrders(user.idUser).then((resp) => {
     setOrders(resp.data)

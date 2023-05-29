@@ -12,7 +12,6 @@ const Product = () => {
 
  useEffect(()=>{ 
    productAPI.getAll().then((resp) => {
-    console.log(resp.data)
      setProducts(resp.data)
     }).catch(error => {
       console.log(error)

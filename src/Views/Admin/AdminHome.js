@@ -13,10 +13,8 @@ const AdminHome = () => {
  const [closefilter,setCloseFilter]=useState(false)
  const navigate=useNavigate()
 
- console.log(orders)
  useEffect(()=>{
   orderAPI.getAllOrders().then((resp) => {
-   console.log(resp.data)
     setOrders(resp.data)
   })
  },[closefilter])
@@ -25,10 +23,8 @@ const AdminHome = () => {
   if (filter){
    if (filter.value.includes("-")){
     filter.value=filter.value.split(" ")[0]+" 00:00:00"
-    console.log(filter)
    }
    orderAPI.getAllOrdersByFilter(filter.param, filter.value).then((resp) => {
-   console.log(resp.data)
    setOrders(resp.data)
   })
   } 
