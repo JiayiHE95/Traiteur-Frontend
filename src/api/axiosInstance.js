@@ -6,14 +6,13 @@ const axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use(config => {
-  //const state = store.getState()
   try {
     const auth = JSON.parse(localStorage.getItem('auth'))
     if (auth.token != null) {
       config.headers.Authorization = `${auth.token}`
     }
-  }catch{
-      //TODO
+  }catch{ 
+    console.log("error create axios")
   }
   return config
 })
