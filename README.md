@@ -1,70 +1,103 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Traiteur LIAN – Application Web de Livraison de Gastronomie Chinoise
 
-## Available Scripts
+Une plateforme web permettant de commander facilement des plats chinois en ligne, avec un espace administrateur simple d’utilisation.
 
-In the project directory, you can run:
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+  <img alt="Creative Commons License" style="border-width:0"
+       src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+</a><br />
+Ce projet est sous licence
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+  Creative Commons Attribution – NonCommercial – NoDerivatives 4.0 International
+</a>.
 
-### `yarn start`
+---
+**Décembre 2022**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+</div>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📋 Sommaire
 
-### `yarn test`
+- [Présentation](#présentation)
+- [Fonctionnalités](#fonctionnalités)
+- [Choix Techniques](#choix-techniques)
+- [Architecture](#architecture)
+- [Sécurité](#sécurité)
+- [Perspectives](#perspectives)
+- [Contributeurs](#contributeurs)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `yarn build`
+## 🥢 Présentation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Traiteur LIAN** (nom inspiré de ma mère) est une application web développée pour partager la passion de la cuisine chinoise à travers un service de commande en ligne.  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Contrairement aux plateformes comme Uber Eats ou Deliveroo, ce site cible les **événements familiaux** ou les **occasions spéciales** (mariages, fêtes traditionnelles), et vise une expérience simple et agréable, tant pour les clients que pour l’administrateur.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `yarn eject`
+## ✅ Fonctionnalités
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Inscription et authentification sécurisée**
+  - Création de compte
+  - Gestion du profil, adresses, historique de commandes
+- **Parcours client**
+  - Parcourir le menu (entrées, plats, desserts…)
+  - Ajouter des plats au panier
+  - Suivi de l’état de la commande (préparation → livraison)
+- **Gestion du panier**
+  - Modifier les quantités ou supprimer des articles
+  - Application automatique de codes promo
+- **Administration**
+  - Gestion des plats (prix, description…)
+  - Mise à jour de l’état des commandes
+  - Gestion des utilisateurs et de leurs commandes
+  - Gestion des codes promo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🛠️ Choix Techniques
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **Back-end :** Node.js + Express.js  
+- **Front-end :** React (architecture par composants + SCSS pour le style)  
+- **Base de données :** MySQL (via Sequelize ORM)  
+- **API :** REST (GET, POST, PUT, DELETE)  
+- **Hébergement :** Dokku (PaaS open-source, recommandé par Polytech)  
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🧱 Architecture
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Back-end (MVC)
+- **Model :** Entités principales (User, Product, Order, Promo, etc.), gérées avec Sequelize  
+- **Controller :** Relie les models aux vues, renvoie des réponses JSON  
+- **Router :** Définit les routes associées aux contrôleurs  
+- **View :** Mails + rendu de données côté client  
 
-### Code Splitting
+### Front-end (React)
+- **Components :** Conteneurs, formulaires, boutons, etc.  
+- **Views :** Pages de haut niveau (ex: Home, Panier, Commandes)  
+- **SCSS :** Bibliothèque centralisée pour le style  
+- **API Layer :** Gestion des routes via Axios et un `axiosInstance` commun  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Base de données
+- Tables principales : `User`, `Product`, `Order`, `Picture`, `Promo`  
+- Tables associatives : `LignePanier`, `LigneOrder`  
+- Gestion des relations N-N et CRUD complet  
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🔒 Sécurité
 
-### Making a Progressive Web App
+- **Authentification :** Basée sur des tokens 
+- **Contrôle d’accès :** Rôles (admin / utilisateur)  
+- **HTTPS :** Connexion sécurisée entre client et serveur  
+- **Réinitialisation de mot de passe :** Token temporaire avec limite de temps  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 🤝 Contributeurs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [**Jiayi He**](https://github.com/JiayiHE95)  
